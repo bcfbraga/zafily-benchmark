@@ -1,5 +1,5 @@
 // Cria (ou atualiza a senha de) um usuário no Supabase Auth, já com e-mail confirmado.
-// Uso: node --env-file=.env.local scripts/create-user.mjs <email> <senha>
+// Uso: npm run create-user -- <email> <senha>
 import { createClient } from "@supabase/supabase-js";
 
 const [email, password] = process.argv.slice(2);
