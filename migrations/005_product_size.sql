@@ -1,0 +1,2 @@
+ALTER TABLE live_products
+  ADD COLUMN IF NOT EXISTS size TEXT;

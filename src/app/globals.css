@@ -1,0 +1,573 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&display=swap");
+/* Famílias da marca (tokens v1) — display, corpo e dados. Globais desde o
+   redesign; as fontes da linha acima são legado e saem quando os últimos
+   utilitários antigos forem removidos. */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Escala de raio medida na referência: 16px em tudo, do painel de tela cheia
+     ao card pequeno. É mais delicado que os 32–40px do briefing inicial — e é
+     o que mantém painel e card na mesma família em vez de competirem.
+     Os utilitários do Tailwind nascem daqui: fonte única, não redeclarar. */
+  --radius-sm: 8px; /* chips, badges */
+  --radius-md: 12px; /* botões, inputs */
+  --radius-lg: 16px; /* cards */
+  --radius-xl: 16px; /* painéis */
+  --radius-2xl: 16px;
+  --radius-3xl: 16px;
+  --radius-full: 999px;
+
+  /* Zafily brand tokens */
+  --color-brand: #F759AD;
+  --color-brand-hover: #E5308F;
+  --color-mint: #F759AD;
+  --color-mint-hover: #E5308F;
+  --color-warning: #FFC857;
+  --color-error: #FF5F7E;
+  --color-bg-primary: #111126;
+  --color-bg-secondary: #1A1A2E;
+  --color-bg-card: #20203A;
+  --color-bg-elevated: #29294A;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B8B4E8;
+  --color-text-muted: #7E78B8;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-brand: rgba(247, 89, 173, 0.28);
+  --color-border-strong: rgba(12, 12, 12, 0.16);
+  --shadow-card: 0 16px 48px rgba(0, 0, 0, 0.28);
+  --shadow-elevated: 0 24px 80px rgba(0, 0, 0, 0.36);
+  --shadow-indigo-glow: 0 0 32px rgba(247, 89, 173, 0.24);
+  --shadow-mint-glow: 0 0 28px rgba(247, 89, 173, 0.18);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ZAFILY DESIGN SYSTEM
+   Canvas → superfícies modulares → grid editorial.
+
+   Três níveis tonais, sem sombra: o canvas aparece nas bordas, a superfície
+   flutua sobre ele e os cards ficam um tom abaixo dentro da superfície. A
+   separação é tonal + 1px de borda, nunca drop shadow.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Superfícies — valores medidos na referência (Magnific).
+     A ordem tonal ABRE para dentro: o canvas é o tom mais fechado, o painel
+     fica um passo acima e os cards são o branco puro. É isso que dá a
+     profundidade sem precisar de sombra. */
+  --page-background: #f5f5f5; /* canvas — neutro, sem tingimento de marca */
+  --surface-panel: #fafafa; /* painel que segura os cards */
+  --surface-primary: #ffffff; /* cards e navegação */
+  --surface-secondary: #f5f5f5; /* card quieto, volta ao tom do canvas */
+  --surface-dark: #2b2b2b; /* off-black: preto puro pesa demais aqui */
+  --surface-brand: #fbf1f6; /* pink-tint — destaque pontual */
+
+  /* Na referência as superfícies não têm borda nem sombra: a separação é só
+     tonal. A borda fica para quando o tom não basta. */
+  --border-subtle: #ececec;
+  --border-on-dark: rgba(255, 255, 255, 0.1);
+
+  /* Folga entre as superfícies e a borda da tela */
+  --canvas-gap: 8px;
+
+  /* Espaçamento — escala fechada, sem valores fora dela */
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 80px;
+  --space-4xl: 96px;
+  --space-5xl: 120px;
+
+  /* Respiro interno dos módulos: o briefing pede 40–72px no desktop, bem acima
+     do padrão SaaS de 24px — é o que faz a composição parecer premium. */
+  --surface-padding: 48px;
+  --surface-padding-lg: 64px;
+
+  /* Grid */
+  --content-max-width: 1360px;
+  --grid-gap: 24px;
+}
+
+:root {
+  /* O tema escuro herdado servia a landing antiga. Agora o canvas claro é o
+     padrão e cada superfície declara o próprio fundo. */
+  --background: var(--page-background);
+  --foreground: #0c0c0c;
+  --card: oklch(0.20 0.04 265);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.22 0.05 265);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(0.60 0.22 270);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.24 0.05 265);
+  --secondary-foreground: oklch(0.82 0.06 270);
+  --muted: oklch(0.24 0.05 265);
+  --muted-foreground: oklch(0.60 0.08 270);
+  --accent: oklch(0.72 0.16 170);
+  --accent-foreground: oklch(0.16 0.03 265);
+  --destructive: oklch(0.65 0.22 10);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 6%);
+  --ring: oklch(0.60 0.22 270);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.18 0.04 265);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.60 0.22 270);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.24 0.05 265);
+  --sidebar-accent-foreground: oklch(0.82 0.06 270);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.60 0.22 270);
+
+  /* Tipografia da marca, agora global — o redesign cobre o site inteiro, então
+     display/corpo/dados deixam de viver só no escopo do dashboard. */
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-heading: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .text-brand { color: var(--color-brand); }
+  .text-mint { color: var(--color-mint); }
+  .text-secondary-zafily { color: var(--color-text-secondary); }
+  .text-muted-zafily { color: var(--color-text-muted); }
+
+  .bg-card-zafily { background: var(--color-bg-card); }
+  .bg-elevated { background: var(--color-bg-elevated); }
+  .bg-secondary-zafily { background: var(--color-bg-secondary); }
+
+  .border-subtle { border-color: var(--color-border-subtle); }
+  .border-brand-zafily { border-color: var(--color-border-brand); }
+
+  .card-highlight {
+    background:
+      radial-gradient(circle at top right, rgba(247, 89, 173, 0.16), transparent 42%),
+      var(--color-bg-card);
+    border: 1px solid var(--color-border-brand);
+  }
+
+  .metric-card-bg {
+    background:
+      radial-gradient(circle at top right, rgba(247, 89, 173, 0.14), transparent 42%),
+      var(--color-bg-card);
+  }
+
+  .glow-indigo { box-shadow: var(--shadow-indigo-glow); }
+  .glow-mint { box-shadow: var(--shadow-mint-glow); }
+
+  .font-heading { font-family: var(--font-heading); }
+  .font-body { font-family: var(--font-body); }
+
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ── Creator surface design tokens (Vitrine / Links) ──────────────────────── */
+/* Scoped to the creator-facing dashboard and public pages; the dark oklch
+   tokens above serve other parts of the app and are left untouched.
+   `.zf-public` repete estes valores de propósito: dentro do dashboard (que é
+   .zf-brand) ele devolve o visual público ao preview da vitrine, para o preview
+   não mostrar rosa/reto enquanto o visitante vê roxo/arredondado. */
+:root,
+.zf-public {
+  --cr-brand-50: #FDF2F8;
+  --cr-brand-100: #FCE7F3;
+  --cr-brand-200: #FBCFE8;
+  --cr-brand-300: #F9A8D4;
+  --cr-brand-400: #F87FBF;
+  --cr-brand-500: #F759AD;
+  --cr-brand-600: #E5308F;
+  --cr-brand-700: #C70A6E;
+  --cr-brand-800: #9D0857;
+  --cr-brand-900: #6B0539;
+
+  --cr-background: #fbfaff;
+  --cr-background-alt: #f5f2ff;
+  --cr-surface: #ffffff;
+  --cr-surface-soft: #f7f5fc;
+  --cr-surface-hover: #f1edfb;
+
+  --cr-text-primary: #0C0C0C;
+  --cr-text-secondary: #675f73;
+  --cr-text-tertiary: #91899b;
+  --cr-text-inverse: #ffffff;
+
+  --cr-border: #ebe7f1;
+  --cr-border-strong: #ddd6e8;
+
+  --cr-accent-yellow: #f7c948;
+  --cr-accent-pink: #f38bb9;
+  --cr-accent-blue: #76a9fa;
+  --cr-accent-green: #66c99a;
+
+  --cr-success: #2f9461;
+  --cr-warning: #bf7819;
+  --cr-danger: #d14b58;
+  --cr-info: #4776d0;
+
+  --cr-radius-xs: 6px;
+  --cr-radius-sm: 10px;
+  --cr-radius-md: 14px;
+  --cr-radius-lg: 18px;
+  --cr-radius-xl: 24px;
+  --cr-radius-2xl: 32px;
+  --cr-radius-full: 999px;
+
+  --cr-shadow-xs: 0 1px 2px rgba(12, 12, 12, 0.04);
+  --cr-shadow-sm: 0 4px 12px rgba(12, 12, 12, 0.06);
+  --cr-shadow-md: 0 12px 30px rgba(12, 12, 12, 0.08);
+  --cr-shadow-floating: 0 18px 48px rgba(12, 12, 12, 0.12);
+
+  --cr-transition-fast: 150ms ease;
+  --cr-transition-base: 220ms ease;
+  --cr-transition-slow: 320ms ease;
+
+  --cr-font: "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ── Marca Zafily — escopo do dashboard ───────────────────────────────────── */
+/* Redeclara os mesmos tokens acima dentro de .zf-brand (raiz de /app), então o
+   dashboard fica rosa enquanto as páginas públicas seguem lendo o :root.
+   Referência: zafilybrandtokens.json v1 — rosa #F759AD é a única cor de marca;
+   roxo e azul são explicitamente proibidos. */
+.zf-brand {
+  /* Escala ancorada nos dois tons oficiais: 500 = pink, 700 = pink-deep */
+  --cr-brand-50: #fdf2f8;
+  --cr-brand-100: #fce7f3;
+  --cr-brand-200: #fbcfe8;
+  --cr-brand-300: #f9a8d4;
+  --cr-brand-400: #f87fbf;
+  --cr-brand-500: #f759ad;
+  --cr-brand-600: #e5308f;
+  --cr-brand-700: #c70a6e;
+  --cr-brand-800: #9d0857;
+  --cr-brand-900: #6b0539;
+
+  --cr-background: #ffffff;
+  --cr-background-alt: #fbf1f6;
+  --cr-surface: #ffffff;
+  --cr-surface-soft: #f5f5f5;
+  --cr-surface-hover: #ececec;
+
+  --cr-text-primary: #0c0c0c;
+  --cr-text-secondary: #816a76;
+  --cr-text-tertiary: #a8959e;
+  --cr-text-inverse: #ffffff;
+
+  --cr-border: #ececec;
+  --cr-border-strong: #dcdcdc;
+
+  --cr-accent-pink: #f759ad;
+
+  /* O redesign substitui os cantos retos que vinham do brand token
+     `corner_radius_max_px: 4` — superfícies arredondadas passaram a ser um dos
+     elementos centrais do sistema. Os utilitários do Tailwind saem do @theme;
+     aqui ficam só as classes .cr-*. */
+  --cr-radius-xs: 8px;
+  --cr-radius-sm: 10px;
+  --cr-radius-md: 16px;
+  --cr-radius-lg: 28px;
+  --cr-radius-xl: 36px;
+  --cr-radius-2xl: 36px;
+  --cr-radius-full: 999px;
+
+  /* Sombras re-ancoradas no preto ink em vez do roxo antigo */
+  --cr-shadow-xs: 0 1px 2px rgba(12, 12, 12, 0.04);
+  --cr-shadow-sm: 0 4px 12px rgba(12, 12, 12, 0.06);
+  --cr-shadow-md: 0 12px 30px rgba(12, 12, 12, 0.08);
+  --cr-shadow-floating: 0 18px 48px rgba(12, 12, 12, 0.12);
+
+  --cr-font: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-heading: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  font-family: var(--font-body);
+}
+
+/* Preços, métricas e percentuais falam em monoespaçada (token: typography.data) */
+.zf-brand .zf-data {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.cr-page-title {
+  font-family: var(--cr-font);
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+}
+
+.cr-section-title {
+  font-family: var(--cr-font);
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+}
+
+.cr-card-title {
+  font-family: var(--cr-font);
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--cr-text-primary);
+}
+
+.cr-body-text {
+  font-family: var(--cr-font);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--cr-text-secondary);
+}
+
+.cr-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--cr-radius-md);
+  background: var(--cr-brand-600);
+  color: var(--cr-text-inverse);
+  font-family: var(--cr-font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(229, 48, 143, 0.2);
+  transition: transform var(--cr-transition-fast), background var(--cr-transition-fast), box-shadow var(--cr-transition-fast);
+}
+.cr-button-primary:hover { transform: translateY(-1px); background: var(--cr-brand-700); box-shadow: 0 7px 18px rgba(229, 48, 143, 0.25); }
+.cr-button-primary:active { transform: translateY(0); }
+.cr-button-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.cr-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--cr-border-strong);
+  border-radius: var(--cr-radius-md);
+  background: var(--cr-surface);
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--cr-transition-fast), background var(--cr-transition-fast);
+}
+.cr-button-secondary:hover { background: var(--cr-surface-hover); border-color: var(--cr-brand-200); }
+
+.cr-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: var(--cr-radius-full);
+  background: var(--cr-brand-100);
+  color: var(--cr-brand-800);
+  font-family: var(--cr-font);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cr-badge--yellow { background: #fff5d6; color: #80600e; }
+
+.cr-showcase-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-xl);
+  box-shadow: var(--cr-shadow-xs);
+  transition: transform var(--cr-transition-base), box-shadow var(--cr-transition-base), border-color var(--cr-transition-base);
+}
+.cr-showcase-card:hover { transform: translateY(-4px); border-color: var(--cr-brand-200); box-shadow: var(--cr-shadow-md); }
+
+.cr-link-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 76px;
+  padding: 14px 16px;
+  background: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  color: var(--cr-text-primary);
+  text-decoration: none;
+  box-shadow: var(--cr-shadow-xs);
+  transition: transform var(--cr-transition-fast), border-color var(--cr-transition-fast), box-shadow var(--cr-transition-fast), background var(--cr-transition-fast);
+}
+.cr-link-card:hover { transform: translateY(-2px); background: var(--cr-surface-hover); border-color: var(--cr-brand-200); box-shadow: var(--cr-shadow-sm); }
+
+.cr-link-card__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: var(--cr-radius-md);
+  background: var(--cr-brand-100);
+  color: var(--cr-brand-700);
+}
+
+.cr-link-card__arrow { margin-left: auto; color: var(--cr-text-tertiary); transition: transform var(--cr-transition-fast), color var(--cr-transition-fast); }
+.cr-link-card:hover .cr-link-card__arrow { transform: translateX(3px); color: var(--cr-brand-600); }
+
+.cr-category-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cr-category-filter__item {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-full);
+  background: var(--cr-surface);
+  color: var(--cr-text-secondary);
+  font-family: var(--cr-font);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background var(--cr-transition-fast), color var(--cr-transition-fast), border-color var(--cr-transition-fast);
+}
+.cr-category-filter__item[data-active="true"] { background: var(--cr-text-primary); border-color: var(--cr-text-primary); color: #fff; }
+
+.cr-form-input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--cr-border-strong);
+  border-radius: var(--cr-radius-md);
+  background: var(--cr-surface);
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font);
+  font-size: 15px;
+  outline: none;
+  transition: border-color var(--cr-transition-fast), box-shadow var(--cr-transition-fast);
+}
+.cr-form-input:hover { border-color: #cfc6dc; }
+.cr-form-input:focus { border-color: var(--cr-brand-500); box-shadow: 0 0 0 4px rgba(247, 89, 173, 0.13); }
+
+.cr-settings-panel {
+  padding: 24px;
+  background: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-xl);
+  box-shadow: var(--cr-shadow-xs);
+}
+
+.cr-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  padding: 40px 24px;
+  text-align: center;
+  border: 1px dashed var(--cr-border-strong);
+  border-radius: var(--cr-radius-xl);
+  background: var(--cr-surface-soft);
+}
+
+.cr-avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--cr-radius-full);
+  border: 4px solid var(--cr-surface);
+  box-shadow: var(--cr-shadow-sm);
+}
+
+.cr-avatar-wrapper {
+  position: relative;
+  display: inline-flex;
+  padding: 8px;
+  border-radius: var(--cr-radius-full);
+  background: var(--cr-brand-100);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(247, 89, 173, 0.28);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cr-page-title, .cr-section-title, .cr-card-title, .cr-body-text,
+  .cr-button-primary, .cr-button-secondary, .cr-badge, .cr-showcase-card,
+  .cr-link-card, .cr-link-card__arrow, .cr-category-filter__item, .cr-form-input {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

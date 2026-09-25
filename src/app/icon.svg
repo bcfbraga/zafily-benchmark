@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="purple" x1="0" y1="0" x2="100" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7B6BFF"/>
+      <stop offset="100%" stop-color="#5B9FFF"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="0" y1="50" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00D4AA"/>
+      <stop offset="100%" stop-color="#00B8A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Top-left shape -->
+  <path d="M6,10 C6,7 8,5 11,5 L42,5 C47,5 50,8 50,13 L50,42 C50,46 47,48 44,47 L13,47 C8,47 6,44 6,40 Z" fill="url(#purple)" rx="8"/>
+
+  <!-- Top-right shape -->
+  <path d="M54,5 L84,5 C89,5 94,8 94,13 L94,40 C94,44 91,47 87,47 L58,47 C54,47 52,45 52,41 L52,13 C52,8 53,5 54,5 Z" fill="url(#purple)"/>
+
+  <!-- Bottom-left shape -->
+  <path d="M6,53 L42,53 C47,53 50,56 50,60 L50,88 C50,93 47,95 43,95 L12,95 C8,95 6,93 6,88 L6,60 C6,55 6,53 6,53 Z" fill="url(#mint)"/>
+
+  <!-- Bottom-right shape -->
+  <path d="M54,55 L86,55 C91,55 94,58 94,62 L94,88 C94,93 91,95 87,95 L58,95 C54,95 52,93 52,88 L52,62 C52,57 53,55 54,55 Z" fill="url(#mint)"/>
+</svg>

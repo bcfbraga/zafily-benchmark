@@ -1,0 +1,3 @@
+ALTER TABLE live_products
+  ADD COLUMN IF NOT EXISTS category TEXT,
+  ADD COLUMN IF NOT EXISTS product_url TEXT;
