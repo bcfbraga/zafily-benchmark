@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "node --env-file=.env.local scripts/seed-dev.mjs",
+    "list-users": "node --env-file=.env.local scripts/list-users.mjs",
     "create-user": "node --env-file=.env.local scripts/create-user.mjs"
   },
   "dependencies": {
